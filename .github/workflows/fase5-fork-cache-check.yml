@@ -1,0 +1,16 @@
+name: fase5-fork-cache-check
+on:
+  workflow_dispatch:
+jobs:
+  check-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v4
+        id: restore
+        with:
+          path: cachetest
+          key: bbtest-fork-cache-v1
+      - name: report
+        run: |
+          echo "cache-hit=${{ steps.restore.outputs.cache-hit }}"
+          if [ -f cachetest/marker.txt ]; then echo "marker-content=$(cat cachetest/marker.txt)"; else echo "marker-content=NO-FILE"; fi
